@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script type="text/javascript">
+// Globale variabelen
+var spelbord;
+var ctx;
+var achtergrond;
+var virus1;
+var virus2;
+var virus3;
+var virus4; 
+var virus5;
+var virus6;
+var vaccin1;
+var vaccin2;
+var vaccin3;
+var vaccin4;
+var vaccin5;
+var medicijn1;
+var medicijn2;
+// Klasse: Achtergrond
+class Achtergrond {
+constructor(x, y, color) {
+this.x = x;
+this.y = y;
+this.color = color;
+this.width = spelbord.width;
+this.height = spelbord.height;
+}
+render() {
+ctx.fillStyle = this.color;
+ctx.fillRect(this.x, this.y, this.width, this.height);
+}
+}
+
+// Klasse: Virus
+class Virus {
+constructor(x, y, radius, vx, vy, image) {
+this.x = x;
+this.y = y;
+this.radius = radius;
+this.vx = vx;
+this.vy = vy;
+// plaatje toevoegen
+this.image = new Image();
+this.image.src = image;
+}
+// Het virus tekenen
+render() {
+ctx.drawImage(this.image, this.x, this.y)
+}
+// De nieuwe positie van het virus berekenen
+update() {
+this.x += this.vx;
+this.y += this.vy;
+// De onderkant
+if (this.y > (spelbord.height - this.radius)) {
+this.y = -50;
+			this.x = intBetween(-50, 1270);
+}
+}
+}
+
+// Klasse; Vaccin
+class Vaccin {
+constructor(x, y, radius, vx, vy, image) {
+this.x = x;
+this.y = y;
+this.radius = radius;
+this.vx = vx;
+this.vy = vy;
+
+// plaatje toevoegen
+this.image = new Image();
+this.image.src = image;
+}
+
+// Het vaccin tekenen
+render() {
+ctx.drawImage(this.image, this.x, this.y)
+}
+
+// De nieuwe positie van het vaccin berekenen
+update() {
+this.x += this.vx;
+this.y += this.vy;
+
+// De onderkant
+if (this.y > (spelbord.height - this.radius)) {
+this.y = -100;
+			this.x = intBetween(0, 1270);
+}
+}
+}
+
+// Klasse: Medicijn
+class Medicijn {
+constructor(x, y, radius, vx, vy, image) {
+this.x = x;
+this.y = y;
+this.radius = radius;
+this.vx = vx;
+this.vy = vy;
+// plaatje toevoegen
+this.image = new Image();
+this.image.src = image;
+}
+// Het medicijn tekenen
+render() {
+	ctx.drawImage(this.image, this.x, this.y)
+}
+	// De nieuwe positie van het medicijn berekenen
+	update() {
+		this.x += this.vx;
+		this.y += this.vy;
+		// De onderkant
+		if (this.y > (spelbord.height - this.radius)) {
+			this.y = -50;
+			this.x = intBetween(0, 1270);
+		}		
+	}
+
+}
+
+/***********************************************
+* intBetween 
+* min, max (minimum en maximum getal)
+* geeft een willekeurig getal tussen min en max 
+* (inclusief min en max)
+************************************************/     
+function intBetween(min, max) {
+  return Math.floor(Math.random()*(max-min+1)+min);
+} 
+
+
+// Game loop
+function gameloop() {
+	update();
+	clearSpelbord();
+	render();
+	requestAnimationFrame(gameloop);
+}
+
+// Update functie
+function update() {
+virus1.update();
+virus2.update();
+virus3.update();
+virus4.update();
+virus5.update();
+virus6.update();
+vaccin1.update();
+vaccin2.update();
+vaccin3.update();
+vaccin4.update();
+medicijn1.update();
+medicijn2.update();
+}
+
+// Nu het canvas schoonmaken
+function clearSpelbord() {
+ctx.clearRect(0, 0, spelbord.width, spelbord.height);
+}
+
+// En dan de render functie om de objecten opnieuw te tekenen
+function render() {
+achtergrond.render();
+virus1.render();
+virus2.render();
+virus3.render(); 
+virus4.render(); 
+virus5.render();
+virus6.render();
+vaccin1.render();
+vaccin2.render();
+vaccin3.render();
+vaccin4.render();
+medicijn1.render();
+medicijn2.render();
+}
+
+// Initialisatie
+window.onload = function() {
+// Het canvas element voor het spelbord ophalen
+spelbord = document.getElementById("spelbord");
+// De context van het spelbord opvragen
+ctx = spelbord.getContext('2d');
+// De achtergrond maken
+achtergrond = new Achtergrond(0, 0, "grey");
+// Het virus 
+virus1 = new Virus(100, 0, 0, 0, 3.2, 'virusdeeltje2.png');
+virus2 = new Virus(300, -140, 0, 0, 3, 'virusdeeltje2.png'); 
+virus3 = new Virus(500, 0, 0, 0, 2.9, 'virusdeeltje2.png');
+virus4 = new Virus(700, -160, 0, 0, 2.8, 'virusdeeltje2.png');
+virus5 = new Virus(900, 0, 0, 0, 3, 'virusdeeltje2.png');
+virus6 = new Virus(1170, 0, 0, 0, 3.3,'virusdeeltje2.png');
+
+// Het vaccin
+vaccin1 = new Vaccin(90, -130, 0, 0, 2.5, 'vaccin3.png');
+vaccin2 = new Vaccin(370, -395, 0, 0, 3, 'vaccin3.png')
+vaccin3 = new Vaccin(900, -270, 0, 0, 3.3, 'vaccin3.png'); 
+vaccin4 = new Vaccin(1130, -360, 0, 0, 2.9, 'vaccin3.png');  
+
+// Het medicijn
+medicijn1 = new Medicijn(430, -30, 0, 0, 3, 'medicijn1.png');
+medicijn2 = new Medicijn(730, -310, 0, 0, 2.8, 'medicijn1.png');
+// start de game loop
+gameloop();
+}
+</script>
+</head>
+<body>
+<canvas id="spelbord" width="1270" height="590"></canvas>
+</body>
+</html>
