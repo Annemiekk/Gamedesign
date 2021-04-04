@@ -1,3 +1,4 @@
+// basic setup zoals het in de tutorial werd gedaan (niet nodig bij ons weet ik bijna wel zeker)
 var myGameArea = {
   canvas : document.createElement("canvas"),
   start : function() {
@@ -15,6 +16,7 @@ var myGameArea = {
   }
 }
 
+// de "obstakels"/virussen een groote geven (ik geloof niet dat de speedx eny nodig zijn, kijk maar ff of het nodig is)
 function component(width, height, color, x, y) {
   this.width = width;
   this.height = height;
@@ -41,6 +43,7 @@ function component(width, height, color, x, y) {
     var othertop = otherobj.y;
     var otherbottom = otherobj.y + (otherobj.height);
     var crash = true;
+// kijken of twee dingen elkaar raken
     if ((mybottom < othertop) ||
     (mytop > otherbottom) ||
     (myright < otherleft) ||
